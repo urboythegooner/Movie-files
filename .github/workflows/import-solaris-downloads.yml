@@ -1,0 +1,29 @@
+name: Import SOLARIS downloads
+on:
+  push:
+    paths:
+      - ".github/workflows/import-solaris-downloads.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download the latest standalone and ZIP files
+        run: |
+          mkdir -p downloads
+          curl -fL --retry 3 'https://solaris.zite.so/downloads/solar-pixel-standalone.html' -o downloads/solar-pixel-standalone.html
+          curl -fL --retry 3 'https://solaris.zite.so/downloads/solar-pixel-complete.zip' -o downloads/solar-pixel-complete.zip
+          curl -fL --retry 3 'https://solaris.zite.so/downloads/solar-pixel-source.zip' -o downloads/solar-pixel-source.zip
+          test -s downloads/solar-pixel-standalone.html
+          test -s downloads/solar-pixel-complete.zip
+          test -s downloads/solar-pixel-source.zip
+      - name: Commit downloaded files
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add downloads/
+          git commit -m 'Add SOLARIS downloadable files' || exit 0
+          git push
