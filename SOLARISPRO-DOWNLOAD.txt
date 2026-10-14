@@ -1,0 +1,5 @@
+SOLARISpro HTML version
+
+Download the repository as a ZIP using the green Code button on GitHub, then choose Download ZIP. Keep solarispro.html and solarispro.js in the same folder. Open solarispro.html in a modern browser.
+
+Note: the visual background image assets are loaded from the hosted SOLARISpro site, so internet access is needed for those images. This HTML entry point is not a fully offline, single-file build.
