@@ -7,6 +7,9 @@ on:
       - "solarispro/**"
       - ".github/workflows/solarispro-build.yml"
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,13 +27,24 @@ jobs:
         run: npm install --no-save vite-plugin-singlefile
       - name: Build single-file offline game
         run: npx vite build --config vite.offline.config.ts
-      - name: Package standalone HTML
+      - name: Verify and prepare standalone HTML
         run: |
           test -s offline-dist/offline.html
           mkdir -p package
           cp offline-dist/offline.html package/index.html
+          cp offline-dist/offline.html index.html
           cd package
           zip -9 ../Solarispro-Offline.zip index.html
+      - name: Commit generated double-click HTML
+        working-directory: .
+        run: |
+          if ! git diff --quiet -- solarispro/index.html; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add solarispro/index.html
+            git commit -m "Publish generated Solarispro offline HTML"
+            git push
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: Solarispro-Offline
