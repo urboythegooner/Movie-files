@@ -1,7 +1,7 @@
-import orbitImage from '@/assets/solaris-orbit .svg';
-import ringsImage from '@/assets/solaris-rings .svg';
-import nebulaImage from '@/assets/solaris-nebula .svg';
-import galaxyImage from '@/assets/solaris-galaxy .svg';
+import orbitImage from '@/assets/solaris-orbit.svg';
+import ringsImage from '@/assets/solaris-rings.svg';
+import nebulaImage from '@/assets/solaris-nebula.svg';
+import galaxyImage from '@/assets/solaris-galaxy.svg';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
