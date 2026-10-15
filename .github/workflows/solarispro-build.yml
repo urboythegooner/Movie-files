@@ -1,4 +1,4 @@
-name: Build Solarispro offline package
+name: Build Solarispro offline standalone
 
 on:
   workflow_dispatch:
@@ -14,28 +14,28 @@ jobs:
       run:
         working-directory: solarispro
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: solarispro/package-lock.json
-      - name: Install dependencies
+      - name: Install project dependencies
         run: npm ci
-      - name: Build production app
-        run: npm run build
-      - name: Package build output
-        working-directory: .
+      - name: Install standalone bundler
+        run: npm install --no-save vite-plugin-singlefile
+      - name: Build single-file offline game
+        run: npx vite build --config vite.offline.config.ts
+      - name: Package standalone HTML
         run: |
-          test -d solarispro/dist || (echo "Build did not create solarispro/dist" && exit 1)
-          cd solarispro
-          zip -r ../Solarispro-build.zip dist
-      - name: Upload build ZIP
-        uses: actions/upload-artifact@v4
+          test -s offline-dist/index.html
+          mkdir -p package
+          cp offline-dist/index.html package/index.html
+          cd package
+          zip -9 ../Solarispro-Offline.zip index.html
+      - uses: actions/upload-artifact@v4
         with:
-          name: Solarispro-build
-          path: Solarispro-build.zip
+          name: Solarispro-Offline
+          path: solarispro/Solarispro-Offline.zip
           if-no-files-found: error
-          retention-days: 14
+          retention-days: 30
