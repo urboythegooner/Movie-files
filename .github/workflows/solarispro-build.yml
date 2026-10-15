@@ -18,19 +18,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: solarispro/package-lock.json
       - name: Install project dependencies
-        run: npm ci
+        run: npm install
       - name: Install standalone bundler
         run: npm install --no-save vite-plugin-singlefile
       - name: Build single-file offline game
         run: npx vite build --config vite.offline.config.ts
       - name: Package standalone HTML
         run: |
-          test -s offline-dist/index.html
+          test -s offline-dist/offline.html
           mkdir -p package
-          cp offline-dist/index.html package/index.html
+          cp offline-dist/offline.html package/index.html
           cd package
           zip -9 ../Solarispro-Offline.zip index.html
       - uses: actions/upload-artifact@v4
