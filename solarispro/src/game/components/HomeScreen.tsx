@@ -1,4 +1,4 @@
-import orbitImage from '@/assets/solaris-orbit.jpg';
+import orbitImage from '@/assets/solaris-orbit.svg';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ChevronRight, CircleHelp, FolderOpen, Play, Settings2, Trash2 } from 'lucide-react';
