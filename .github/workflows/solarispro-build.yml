@@ -38,7 +38,7 @@ jobs:
       - name: Commit generated double-click HTML
         working-directory: .
         run: |
-          if ! git diff --quiet -- solarispro/index.html; then
+          if [ -n "$(git status --porcelain -- solarispro/index.html)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add solarispro/index.html
